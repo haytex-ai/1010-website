@@ -38,6 +38,12 @@
     new IntersectionObserver(function(es){es.forEach(function(en){inClaim=en.isIntersecting;upd();});},{rootMargin:'0px 0px -35% 0px'}).observe(claim);
   }
 
+  /* ---- On phones, claim buttons land on the form itself, not the steps above it ---- */
+  var narrow=window.matchMedia('(max-width: 899px)');
+  d.querySelectorAll('a[href="#claim"]:not(.skip)').forEach(function(a){a.addEventListener('click',function(e){
+    if(!narrow.matches)return;e.preventDefault();claim.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  });});
+
   /* ---- Form ---- */
   var form=d.getElementById('claim-form'),status=d.getElementById('f-status'),btn=d.getElementById('f-submit'),t0=Date.now();
   var qs=new URLSearchParams(location.search);d.getElementById('f-source').value=qs.get('utm_source')||qs.get('ref')||(d.referrer?('referral: '+d.referrer):'direct');
