@@ -31,3 +31,9 @@ Why the site is built the way it is. Change these on purpose, not by accident.
 **8th deliverable, "Files you own."** Real closeout value, and it keeps the Procore claim accurate (download and drop in, not integrate).
 
 **Self-hosted fonts.** No Google request: faster, and the privacy page can say the site doesn't track across other sites.
+
+**On phones, claim buttons land on the form, not the section top.** On a phone the 3 steps fill the screen, so landing on the section showed no field to type in. Someone who tapped "Claim" has already decided; the steps stay just above for anyone who scrolls up. Desktop is unchanged because the steps and form sit side by side. Done in `home.js`; without JavaScript the buttons still go to `#claim`.
+
+**This repo is the only source for the live site.** The original drag-and-drop folder (`Documents/1010drones-site`, inline styles) is retired as of 2026-10-04. Never upload from it again, or it will overwrite this build.
+
+**Cloudflare hides the email address on the live domain** (Email Obfuscation). It still shows normally to people. Preview URLs (`*.pages.dev`) show it as plain text; that's expected.

@@ -84,7 +84,7 @@ One page, one offer, one action.
    - H1, subhead, CTA, and microcopy
    - the before/after slider plate with its title block, plus a "live sample" link under it
    - the 4-fact credential grid
-3. **Claim (#claim):** 3 numbered steps and the 5-field form (name, company, mobile, email, job location).
+3. **Claim (#claim):** 3 numbered steps and the 5-field form (name, company, mobile, email, job location). On phones, every claim button scrolls to the form card itself, not the section top (`home.js`).
 4. **Offer:** 8 deliverables, the guarantee strip, a multi-job line, and a CTA.
 5. **Questions GCs ask:** 4 objections, all answered in the open (no accordion).
 6. **Who's flying your job:** body text, the founder spec list, the CTA, and recent flight thumbnails.
@@ -101,7 +101,7 @@ Other pages: `thanks.html` (noindex), `privacy.html`, `404.html`.
   - The form still works without JavaScript through the hidden `redirect` field.
 - **Lead source:** the `utm_source` URL parameter fills the hidden `source` field, which shows up in every lead email. Channels in use: `card`, `cold-email`, `call`, `linkedin`.
 - **Analytics:** Cloudflare Web Analytics, turned on in the Pages dashboard (no script tag in the code).
-- **Caching** is set in `site/_headers`. CSS and JS always revalidate. Images cache for 30 days, so **replace an image under a new filename** or returning visitors keep the old one.
+- **Caching** is set in `site/_headers`. CSS and JS always revalidate (only once Cloudflare's Browser Cache TTL is set to "Respect Existing Headers"; until then it forces 4 hours, see ROADMAP). Images cache for 30 days, so **replace an image under a new filename** or returning visitors keep the old one.
 - **Images:**
   - WebP format
   - the hero is 250KB or less at 1600px (desktop) and 900px (mobile, 4:5)
@@ -120,13 +120,14 @@ The two maps are aligned to the same frame (residential subdivision, Flight 1 vs
 
 ## Deploy
 
-- **Cloudflare Pages project:** `1010drones`, a direct upload project (not Git-connected). Live on 1010drones.com and www.1010drones.com.
+- **Cloudflare Pages project:** `1010drones`, a direct upload project (not Git-connected). Live on 1010drones.com and www.1010drones.com. Production branch is `main`.
+- **GitHub:** github.com/haytex-ai/1010-website (private), branch `main`. This repo is the only source for the live site. Never upload from the old `Documents/1010drones-site` folder.
 - **Preview (default after any change):**
   `npx wrangler pages deploy site --project-name=1010drones --branch=preview`
   Send Hayden the preview URL to check on his phone.
 - **Production (only after Hayden says to ship):**
-  `npx wrangler pages deploy site --project-name=1010drones --branch=main`
-  If the deploy output doesn't say it went to production, check the production branch with `npx wrangler pages project list` and use that branch name.
+  `npx wrangler pages deploy site --project-name=1010drones --branch=main --commit-hash=$(git rev-parse HEAD)`
+  The commit hash makes the Cloudflare deployment list show which commit is live. Confirm with `npx wrangler pages deployment list --project-name=1010drones` (top row should say Production) and check that 1010drones.com returns the change.
 - **Always commit and push to GitHub** before a production deploy. Write commit messages in plain words, like "Swap slider dates" or "Rewrite claim step 3."
 - **Never deploy anything outside `site/`.** Never touch the portal project or its Workers from here.
 
